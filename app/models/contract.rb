@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: contracts
+#
+#  id            :integer          not null, primary key
+#  created_at    :datetime
+#  updated_at    :datetime
+#  start_date    :date
+#  end_date      :date
+#
+
 class Contract < ApplicationRecord
 
   has_many :invoices
@@ -52,10 +63,12 @@ class Contract < ApplicationRecord
     invoices
   end
 
+  #合同下交租阶段总额
   def renting_phases_count
     renting_phases.present? ? renting_phases.count : 0
   end
 
+  #交租日期
   def due(date)
     last = date.last_month
     Date.new(last.year, last.month, 15)
