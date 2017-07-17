@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<div>
+  <h2>账单</h2>
+  <div>
+    您的合同期内共产生了<%= @invoices.count %>份账单
+    <% if @invoices.count > 0 %>
+        ，分别为：
+        <% @total = 0 %>
+        <% @invoices.each_with_index do |invoice, index|%>
+            <% @total += invoice.try(:total) %>
+            <h3><%= "#{index+1}、 #{invoice.try(:start_date)} 至 #{invoice.try(:end_date)}, 账单总额为#{invoice.try(:total)}元。明细如下：" %></h3>
+            <ul>
+              <% if invoice.line_items.present? %>
+                <% invoice.line_items.each do |line| %>
+                  <li>
+                    <%= "#{line.try(:start_date)} 至 #{line.try(:end_date)}，#{line.try(:unit_word)}租金为#{line.try(:unit_price)}元，小计#{line.try(:total)}元" %>
+                  </li>
+                <% end %>
+              <% end %>
+            </ul>
+        <% end %>
+        <h2><%= "总计：#{@total.round(1)}元" %></h2>
+  <% end %>
+  </div>
+</div>
+</body>

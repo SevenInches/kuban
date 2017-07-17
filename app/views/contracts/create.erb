@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+  <div>
+    <h2>合同</h2>
+    <div>
+      您合同的起止期为<%= @contract.try(:start_date) %> 至 <%= @contract.try(:end_date) %>,
+      该合同包括<%= @contract.try(:renting_phases_count) %>个交租阶段
+      <% if @contract.renting_phases.present? %>
+          ，分别为：
+        <% @contract.renting_phases.each_with_index do |phase, index|%>
+          <%= "#{index+1}、 #{phase.try(:start_date)} 至 #{phase.try(:end_date)}, 租金为#{phase.try(:price).round(1)}/月;" %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</body>
